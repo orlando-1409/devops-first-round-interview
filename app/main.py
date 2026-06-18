@@ -3,7 +3,6 @@
 Lets users create audiences by filtering on age, and retrieve the members
 that match each audience definition.
 """
-import logging
 from itertools import count
 
 from fastapi import FastAPI, HTTPException
@@ -46,7 +45,7 @@ def create_audience(payload: AudienceCreate) -> Audience:
 @app.get("/audiences/{audience_id}", response_model=Audience)
 def get_audience(audience_id: int) -> Audience:
     audience = _audiences.get(audience_id)
-    if audience == None:
+    if audience is None:
         raise HTTPException(status_code=404, detail="audience not found")
     matched = filter_people(
         min_age=audience.filters.min_age,
